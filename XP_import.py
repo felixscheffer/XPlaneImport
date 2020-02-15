@@ -70,7 +70,7 @@ class XPlaneImport(bpy.types.Operator):
         me.materials.append(material)
 
         # Assign the UV coordinates to each vertex
-        me.uv_textures.new(name="UVMap")
+        me.uv_layers.new(name="UVMap")
         me.uv_layers[-1].data.foreach_set("uv", [uv for pair in [vert_uvs[l.vertex_index] for l in me.loops] for uv in pair])
 
         # Assign the normals for each vertex
@@ -158,7 +158,7 @@ class XPlaneImport(bpy.types.Operator):
             if(line[0] == 'ANIM_begin'):
                 anim_nesting += 1
                 a_trans.append(Vector((0,0,0)))
-                
+            
             if(line[0] == 'ANIM_trans'):
                 trans_x = float(line[1])
                 trans_y = (float(line[3]) * -1)
