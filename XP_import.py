@@ -60,7 +60,7 @@ class XPlaneImport(bpy.types.Operator):
         # Link object to scene and make active
         scn = bpy.context.collection
         scn.objects.link(ob)
-        scn.objects.active = ob
+        bpy.context.view_layer.objects.active = ob
         ob.select = True
         
         # Create mesh from given verts, faces.
