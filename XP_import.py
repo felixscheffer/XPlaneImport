@@ -61,7 +61,7 @@ class XPlaneImport(bpy.types.Operator):
         scn = bpy.context.collection
         scn.objects.link(ob)
         bpy.context.view_layer.objects.active = ob
-        ob.select = True
+        ob.select_set(True)
         
         # Create mesh from given verts, faces.
         me.from_pydata(verts, [], faces)
@@ -90,7 +90,7 @@ class XPlaneImport(bpy.types.Operator):
         bpy.ops.mesh.delete(type='VERT')
         bpy.ops.object.mode_set(mode='OBJECT')
 
-        ob.select = False
+        ob.select_set(False)
 
         return ob
         
