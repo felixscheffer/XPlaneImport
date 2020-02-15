@@ -58,7 +58,7 @@ class XPlaneImport(bpy.types.Operator):
         ob.show_name = False
 
         # Link object to scene and make active
-        scn = bpy.context.scene
+        scn = bpy.context.collection
         scn.objects.link(ob)
         scn.objects.active = ob
         ob.select = True
