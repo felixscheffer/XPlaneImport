@@ -121,16 +121,20 @@ class XPlaneImport(bpy.types.Operator):
 
                 # Create and add a material
                 material = bpy.data.materials.new('Material')
+                material.use_nodes = True
+                
+                bsdf = material.node_tree.nodes["Principled BSDF"]
 
                 # Create texture
-                tex = bpy.data.textures.new('Texture', type = 'IMAGE')
-                tex.image = bpy.data.images.load("%s\\%s" % (os.path.dirname(self.filepath), texfilename))
-                tex.use_alpha = True
+                texImage = material.node_tree.nodes.new('ShaderNodeTexImage')
+                texImage.image = bpy.data.images.load("%s\\%s" % (os.path.dirname(self.filepath), texfilename))
+                # tex.use_alpha = True
 
                 # Add Texture to the Material
-                mtex = material.texture_slots.add()
-                mtex.texture = tex
-                mtex.texture_coords = 'UV'
+                # mtex = material.texture_slots.add()
+                # mtex.texture = tex
+                # mtex.texture_coords = 'UV'
+                material.node_tree.links.new(bsdf.inputs['Base Color'], texImage.outputs['Color'])
 
 
             if(line[0] == 'VT'):
