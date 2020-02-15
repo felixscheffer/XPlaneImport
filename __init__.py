@@ -53,11 +53,11 @@ def menu_func(self, context):
     
 def register():
     bpy.utils.register_class(XP_import.XPlaneImport)
-    bpy.types.INFO_MT_file_import.append(menu_func)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func)
     
 def unregister():
     bpy.utils.unregister_class(XP_import.XPlaneImport)   
-    bpy.types.INFO_MT_file_import.remove(menu_func)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func)
     
 if __name__ == "__main__":
     register()
