@@ -32,8 +32,8 @@
 bl_info = {
     "name": "Import X-Plane OBJ",
     "author": "Dave Prue <dave.prue@lahar.net>",
-    "version": (1,0,1),
-    "blender": (2,7,8),
+    "version": (1,0,2),
+    "blender": (2,80,0),
     "api": 36273,
     "location": "File > Import/Export > XPlane",
     "description": "Import X-Plane obj files",
@@ -53,11 +53,11 @@ def menu_func(self, context):
     
 def register():
     bpy.utils.register_class(XP_import.XPlaneImport)
-    bpy.types.INFO_MT_file_import.append(menu_func)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func)
     
 def unregister():
     bpy.utils.unregister_class(XP_import.XPlaneImport)   
-    bpy.types.INFO_MT_file_import.remove(menu_func)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func)
     
 if __name__ == "__main__":
     register()
