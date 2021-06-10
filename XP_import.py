@@ -39,7 +39,7 @@ class XPlaneImport(bpy.types.Operator):
     bl_label = "Import X-Plane OBJ"
     bl_idname = "import.xplane_obj"
 
-    filepath = bpy.props.StringProperty(subtype="FILE_PATH")
+    filepath: bpy.props.StringProperty(subtype="FILE_PATH")
 
     def execute(self, context):
         print("execute %s" % self.filepath)
