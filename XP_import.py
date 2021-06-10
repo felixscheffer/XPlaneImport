@@ -51,6 +51,7 @@ class XPlaneImport(bpy.types.Operator):
         return {"RUNNING_MODAL"}
 
     def createMeshFromData(self, name, origin, verts, faces, material, vert_uvs, vert_normals):
+        me = bpy.data.meshes.new(name+'Mesh')
         ob = bpy.data.objects.new(name, me)
         ob.location = origin
         ob.show_name = False
@@ -62,7 +63,6 @@ class XPlaneImport(bpy.types.Operator):
         ob.select_set(True)
 
         # Create mesh from given verts, faces.
-        me = bpy.data.meshes.new(name+'Mesh')
         me.from_pydata(verts, [], faces)
         me.materials.append(material)
         me.uv_layers.new(name="UVMap")
