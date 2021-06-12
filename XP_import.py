@@ -127,7 +127,21 @@ class XPlaneImport(bpy.types.Operator):
             if(line[0] == 'TEXTURE_LIT'):
                 texImage = self.loadTexture(node_tree, line[1])
 
+            if(line[0] == 'TEXTURE_NORMAL'):
+                # TODO: read specular map from alpha channel
+                # TODO: gray 8-bit maps are very likely specular maps
+                texImage = self.loadTexture(node_tree, line[1])
+                bsdf = node_tree.nodes["Principled BSDF"]
+                normalMap = node_tree.nodes.new('ShaderNodeNormalMap')
+
+                node_tree.links.new(texImage.outputs['Color'], normalMap.inputs['Color'])
+                node_tree.links.new(normalMap.outputs['Normal'], bsdf.inputs['Normal'])
+
             if(line[0] == 'TEXTURE_DRAPED_NORMAL'):
+                # TODO: implement draped ratio
+                # TODO: read specular map from alpha channel
+                # TODO: gray 8-bit maps are very likely specular maps
+                drapedRatio = line[1]
                 texImage = self.loadTexture(node_tree, line[2])
                 bsdf = node_tree.nodes["Principled BSDF"]
                 normalMap = node_tree.nodes.new('ShaderNodeNormalMap')
