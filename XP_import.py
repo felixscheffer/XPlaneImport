@@ -39,11 +39,13 @@ class XPlaneImport(bpy.types.Operator):
     bl_label = "Import X-Plane OBJ"
     bl_idname = "import.xplane_obj"
 
-    filepath: bpy.props.StringProperty(subtype="FILE_PATH")
+    directory: bpy.props.StringProperty(subtype='DIR_PATH')
+    files: bpy.props.CollectionProperty(type=bpy.types.OperatorFileListElement, options={'HIDDEN', 'SKIP_SAVE'})
 
     def execute(self, context):
-        print("execute %s" % self.filepath)
-        self.run((0,0,0))
+        for file in self.files:
+            self.run(file.name, (0,0,0))
+
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -81,20 +83,18 @@ class XPlaneImport(bpy.types.Operator):
         return ob
 
     def loadTexture(self, node_tree, filename):
-        path = "%s\\%s" % (os.path.dirname(self.filepath), filename);
+        path = os.path.join(self.directory, filename)
         texImage = node_tree.nodes.new('ShaderNodeTexImage')
         texImage.image = bpy.data.images.load(path)
         # tex.use_alpha = True
 
         return texImage
 
-    def getObjNameFromFilePath(self):
-        filename = os.path.basename(self.filepath)
-        return os.path.splitext(filename)[0]
-
-    def run(self, origo):
+    def run(self, filename, origo):
         # parse file
-        f = open(self.filepath, 'r')
+        filepath = os.path.join(self.directory, filename)
+        print("importing %s" % filepath)
+        f = open(filepath, 'r')
         lines = f.readlines()
         f.close()
 
@@ -195,7 +195,7 @@ class XPlaneImport(bpy.types.Operator):
                     obj_origin = origin_temp
                 objects.append( (obj_origin, obj_lst) )
 
-        objName = self.getObjNameFromFilePath()
+        objName = os.path.splitext(filename)[0]
         counter = 0
 
         for orig, obj in objects:
